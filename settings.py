@@ -9,4 +9,7 @@ bullet_speed = 1
 bullet_width = 3
 bullet_height = 15
 bullet_color = (60, 60, 60)
-bullet_limit = 3
+bullet_limit = 5
+
+alien_row_number = 3
+alien_col_number = 8
