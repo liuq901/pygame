@@ -1,12 +1,19 @@
 import sys
+import settings
 
 import pygame
 
 class Main(object):
     def init(self):
+        self.settings = settings
+        
         pygame.init()
-        screen = pygame.display.set_mode((1200, 800))
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption('Alien Invasion')
+
+    def show(self):
+        self.screen.fill(self.settings.bg_color)
+        pygame.display.flip()
 
     def run(self):
         self.init()
@@ -16,7 +23,7 @@ class Main(object):
                 if event.type == pygame.QUIT:
                     sys.exit()
 
-            pygame.display.flip()
+            self.show()
 
 
 if __name__ == '__main__':
