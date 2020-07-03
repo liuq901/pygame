@@ -7,10 +7,8 @@ import ship
 
 class Main(object):
     def init(self):
-        self.settings = settings
-        
         pygame.init()
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        self.screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
         pygame.display.set_caption('Alien Invasion')
 
         self.ship = ship.Ship(self.screen)
@@ -19,9 +17,19 @@ class Main(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.move(1)
+                elif event.key == pygame.K_LEFT:
+                    self.ship.move(-1)
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    self.ship.move(-1)
+                elif event.key == pygame.K_LEFT:
+                    self.ship.move(1)
 
     def update_screen(self):
-        self.screen.fill(self.settings.bg_color)
+        self.screen.fill(settings.bg_color)
         self.ship.blit()
         pygame.display.flip()
 
@@ -30,6 +38,7 @@ class Main(object):
 
         while True:
             self.check_event()
+            self.ship.update_position()
             self.update_screen()
 
 if __name__ == '__main__':
