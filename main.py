@@ -62,6 +62,12 @@ class Main(object):
             if bullet.rect.bottom < 0:
                 self.bullets.remove(bullet)
 
+    def check_collision(self):
+        pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        if len(self.aliens) == 0:
+            self.bullets.empty()
+            self.creat_enemy()
+
     def aliens_touch_edge(self):
         for alien in self.aliens:
             if alien.touch_edge():
@@ -77,6 +83,7 @@ class Main(object):
         self.ship.update()
         self.bullets.update()
         self.remove_outside_bullet()
+        self.check_collision()
         self.aliens.update()
         if self.aliens_touch_edge():
             self.change_aliens_direction()

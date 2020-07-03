@@ -14,4 +14,4 @@ bullet_limit = 5
 alien_row_number = 3
 alien_col_number = 8
 alien_speed = 1.0
-alien_drop_speed = 15
+alien_drop_speed = 10
