@@ -1,7 +1,9 @@
 import sys
-import settings
 
 import pygame
+
+import settings
+import ship
 
 class Main(object):
     def init(self):
@@ -11,20 +13,24 @@ class Main(object):
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption('Alien Invasion')
 
-    def show(self):
+        self.ship = ship.Ship(self.screen)
+
+    def check_event(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+    def update_screen(self):
         self.screen.fill(self.settings.bg_color)
+        self.ship.blit()
         pygame.display.flip()
 
     def run(self):
         self.init()
 
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-
-            self.show()
-
+            self.check_event()
+            self.update_screen()
 
 if __name__ == '__main__':
     main = Main()
