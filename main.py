@@ -4,6 +4,7 @@ import pygame
 
 import settings
 import ship
+import bullet
 
 class Main(object):
     def init(self):
@@ -12,6 +13,7 @@ class Main(object):
         pygame.display.set_caption('Alien Invasion')
 
         self.ship = ship.Ship(self.screen)
+        self.bullets = pygame.sprite.Group()
 
     def check_event(self):
         for event in pygame.event.get():
@@ -22,15 +24,28 @@ class Main(object):
                     self.ship.move(1)
                 elif event.key == pygame.K_LEFT:
                     self.ship.move(-1)
+                elif event.key == pygame.K_SPACE:
+                    if len(self.bullets) < settings.bullet_limit:
+                        self.bullets.add(bullet.Bullet(self.screen, self.ship))
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
                     self.ship.move(-1)
                 elif event.key == pygame.K_LEFT:
                     self.ship.move(1)
 
-    def update_screen(self):
+    def update(self):
+        self.ship.update()
+        self.bullets.update()
+
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom < 0:
+                self.bullets.remove(bullet)
+
+    def draw(self):
         self.screen.fill(settings.bg_color)
-        self.ship.blit()
+        self.ship.draw()
+        for bullet in self.bullets:
+            bullet.draw()
         pygame.display.flip()
 
     def run(self):
@@ -38,8 +53,8 @@ class Main(object):
 
         while True:
             self.check_event()
-            self.ship.update_position()
-            self.update_screen()
+            self.update()
+            self.draw()
 
 if __name__ == '__main__':
     main = Main()

@@ -4,6 +4,8 @@ import settings
 
 class Ship(pygame.sprite.Sprite):
     def __init__(self, screen):
+        super(Ship, self).__init__()
+
         self.screen = screen
 
         self.image = pygame.image.load('images/ship.bmp')
@@ -19,7 +21,7 @@ class Ship(pygame.sprite.Sprite):
     def move(self, direction):
         self.movement += direction
 
-    def update_position(self):
+    def update(self):
         bakcup = (self.center, self.rect)
 
         self.center += self.movement * settings.ship_speed
@@ -28,5 +30,5 @@ class Ship(pygame.sprite.Sprite):
         if self.rect.left < 0 or self.rect.right > self.screen.get_rect().right:
             self.center, self.rect = bakcup
 
-    def blit(self):
+    def draw(self):
         self.screen.blit(self.image, self.rect)
