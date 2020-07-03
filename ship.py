@@ -11,6 +11,9 @@ class Ship(pygame.sprite.Sprite):
         self.image = pygame.image.load('images/ship.bmp')
         self.rect = self.image.get_rect()
 
+        self.init()
+
+    def init(self):
         self.rect.centerx = self.screen.get_rect().centerx
         self.rect.bottom = self.screen.get_rect().bottom
 
