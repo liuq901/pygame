@@ -25,6 +25,7 @@ class Main(object):
                 alien = Alien(self.screen)
                 alien.rect.x = x
                 alien.rect.y = y
+                alien.x = float(x)
                 x += width * 2
                 self.aliens.add(alien)
             y += height * 2
@@ -56,13 +57,29 @@ class Main(object):
                 elif event.key == pygame.K_LEFT:
                     self.ship.move(1)
 
-    def update(self):
-        self.ship.update()
-        self.bullets.update()
-
+    def remove_outside_bullet(self):
         for bullet in self.bullets.copy():
             if bullet.rect.bottom < 0:
                 self.bullets.remove(bullet)
+
+    def aliens_touch_edge(self):
+        for alien in self.aliens:
+            if alien.touch_edge():
+                return True
+        return False
+
+    def change_aliens_direction(self):
+        for alien in self.aliens:
+            alien.rect.y += settings.alien_drop_speed
+            alien.movement *= -1
+
+    def update(self):
+        self.ship.update()
+        self.bullets.update()
+        self.remove_outside_bullet()
+        self.aliens.update()
+        if self.aliens_touch_edge():
+            self.change_aliens_direction()
 
     def draw(self):
         self.screen.fill(settings.bg_color)

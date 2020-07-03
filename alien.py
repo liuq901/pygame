@@ -14,3 +14,12 @@ class Alien(pygame.sprite.Sprite):
         self.rect.y = self.rect.height
 
         self.x = float(self.rect.x)
+
+        self.movement = 1
+
+    def touch_edge(self):
+        return self.rect.right > self.screen.get_rect().right or self.rect.left < 0
+
+    def update(self):
+        self.x += self.movement * settings.alien_speed
+        self.rect.x = int(self.x)
